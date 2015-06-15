@@ -1,0 +1,53 @@
+﻿@model IEnumerable<SundayGolf.Models.Weekly>
+
+@{
+    ViewBag.Title = "Summary";
+}
+
+<h2>Overall</h2>
+
+@using (Html.BeginForm("Summary", "SunGolf", FormMethod.Post, new { id = "TheForm" }))
+{
+
+  @Html.DropDownList(
+    "SelectedYear",
+    null, 
+    new { onchange = "document.getElementById('TheForm').submit();" }
+    )
+}
+
+<table>
+    <tr>
+        <th>Golfer</th>
+        <th>Total</th>
+        <th>Events</th>
+        <th>Pins</th>
+        <th>Skins</th>
+    </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Golfer.GolferName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Score)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pins)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Skins)
+            </td>
+        </tr>
+    }
+
+</table>
+
+<p>
+    @Html.ActionLink("Details", "Index")
+</p>
+

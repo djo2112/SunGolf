@@ -1,0 +1,360 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SUNGOLFModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="SUNGOLFModelStoreContainer">
+          <EntitySet Name="Course" EntityType="SUNGOLFModel.Store.Course" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Golfer" EntityType="SUNGOLFModel.Store.Golfer" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Schedule" EntityType="SUNGOLFModel.Store.Schedule" store:Type="Tables" store:Schema="dbo" store:Name="Schedule">
+            <DefiningQuery>SELECT 
+      [Schedule].[ID] AS [ID], 
+      [Schedule].[Date] AS [Date], 
+      [Schedule].[GolferID] AS [GolferID], 
+      [Schedule].[CourseID] AS [CourseID], 
+      [Schedule].[Golfing] AS [Golfing], 
+      [Schedule].[NotGolfing] AS [NotGolfing], 
+      [Schedule].[Maybe] AS [Maybe]
+      FROM [dbo].[Schedule] AS [Schedule]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Weekly" EntityType="SUNGOLFModel.Store.Weekly" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Schedule_Course" Association="SUNGOLFModel.Store.FK_Schedule_Course">
+            <End Role="Course" EntitySet="Course" />
+            <End Role="Schedule" EntitySet="Schedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Schedule_Golfer" Association="SUNGOLFModel.Store.FK_Schedule_Golfer">
+            <End Role="Golfer" EntitySet="Golfer" />
+            <End Role="Schedule" EntitySet="Schedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Weekly_Course" Association="SUNGOLFModel.Store.FK_Weekly_Course">
+            <End Role="Course" EntitySet="Course" />
+            <End Role="Weekly" EntitySet="Weekly" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Weekly_Golfer" Association="SUNGOLFModel.Store.FK_Weekly_Golfer">
+            <End Role="Golfer" EntitySet="Golfer" />
+            <End Role="Weekly" EntitySet="Weekly" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Course">
+          <Key>
+            <PropertyRef Name="CourseID" />
+          </Key>
+          <Property Name="CourseID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CourseName" Type="nchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Golfer">
+          <Key>
+            <PropertyRef Name="GolferID" />
+          </Key>
+          <Property Name="GolferID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="GolferName" Type="nchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'SUNGOLF.dbo.Schedule' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="Schedule">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="GolferID" />
+            <PropertyRef Name="CourseID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="smalldatetime" Nullable="false" />
+          <Property Name="GolferID" Type="int" Nullable="false" />
+          <Property Name="CourseID" Type="int" Nullable="false" />
+          <Property Name="Golfing" Type="int" />
+          <Property Name="NotGolfing" Type="int" />
+          <Property Name="Maybe" Type="int" />
+        </EntityType>
+        <EntityType Name="Weekly">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="smalldatetime" Nullable="false" />
+          <Property Name="GolferID" Type="int" Nullable="false" />
+          <Property Name="CourseID" Type="int" Nullable="false" />
+          <Property Name="Score" Type="int" Nullable="false" />
+          <Property Name="Handicap" Type="decimal" Nullable="false" Precision="5" Scale="1" />
+          <Property Name="Net" Type="int" />
+          <Property Name="Skins" Type="int" />
+          <Property Name="Pins" Type="int" />
+          <Property Name="PinsAmt" Type="money" />
+          <Property Name="SkinsAmt" Type="money" />
+          <Property Name="NetAmt" Type="money" />
+          <Property Name="Total" Type="money" />
+        </EntityType>
+        <Association Name="FK_Schedule_Course">
+          <End Role="Course" Type="SUNGOLFModel.Store.Course" Multiplicity="1" />
+          <End Role="Schedule" Type="SUNGOLFModel.Store.Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Course">
+              <PropertyRef Name="CourseID" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="CourseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Schedule_Golfer">
+          <End Role="Golfer" Type="SUNGOLFModel.Store.Golfer" Multiplicity="1" />
+          <End Role="Schedule" Type="SUNGOLFModel.Store.Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Golfer">
+              <PropertyRef Name="GolferID" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="GolferID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Weekly_Course">
+          <End Role="Course" Type="SUNGOLFModel.Store.Course" Multiplicity="1" />
+          <End Role="Weekly" Type="SUNGOLFModel.Store.Weekly" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Course">
+              <PropertyRef Name="CourseID" />
+            </Principal>
+            <Dependent Role="Weekly">
+              <PropertyRef Name="CourseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Weekly_Golfer">
+          <End Role="Golfer" Type="SUNGOLFModel.Store.Golfer" Multiplicity="1" />
+          <End Role="Weekly" Type="SUNGOLFModel.Store.Weekly" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Golfer">
+              <PropertyRef Name="GolferID" />
+            </Principal>
+            <Dependent Role="Weekly">
+              <PropertyRef Name="GolferID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SUNGOLFModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="SUNGOLFDB" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+          <EntitySet Name="Courses" EntityType="SUNGOLFModel.Course" />
+          <EntitySet Name="Golfers" EntityType="SUNGOLFModel.Golfer" />
+          <EntitySet Name="Weeklies" EntityType="SUNGOLFModel.Weekly" />
+          <AssociationSet Name="FK_Weekly_Course" Association="SUNGOLFModel.FK_Weekly_Course">
+            <End Role="Course" EntitySet="Courses" />
+            <End Role="Weekly" EntitySet="Weeklies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Weekly_Golfer" Association="SUNGOLFModel.FK_Weekly_Golfer">
+            <End Role="Golfer" EntitySet="Golfers" />
+            <End Role="Weekly" EntitySet="Weeklies" />
+          </AssociationSet>
+          <EntitySet Name="Schedules" EntityType="SUNGOLFModel.Schedule" />
+          <AssociationSet Name="FK_Schedule_Course" Association="SUNGOLFModel.FK_Schedule_Course">
+            <End Role="Course" EntitySet="Courses" />
+            <End Role="Schedule" EntitySet="Schedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Schedule_Golfer" Association="SUNGOLFModel.FK_Schedule_Golfer">
+            <End Role="Golfer" EntitySet="Golfers" />
+            <End Role="Schedule" EntitySet="Schedules" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Course">
+          <Key>
+            <PropertyRef Name="CourseID" />
+          </Key>
+          <Property Name="CourseID" Type="Int32" Nullable="false" a:StoreGeneratedPattern="Identity" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="CourseName" Type="String" MaxLength="50" Unicode="true" FixedLength="true" />
+          <NavigationProperty Name="Weekly" Relationship="SUNGOLFModel.FK_Weekly_Course" FromRole="Course" ToRole="Weekly" />
+          <NavigationProperty Name="Schedules" Relationship="SUNGOLFModel.FK_Schedule_Course" FromRole="Course" ToRole="Schedule" />
+        </EntityType>
+        <EntityType Name="Golfer">
+          <Key>
+            <PropertyRef Name="GolferID" />
+          </Key>
+          <Property Name="GolferID" Type="Int32" Nullable="false" a:StoreGeneratedPattern="Identity" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="GolferName" Type="String" MaxLength="50" Unicode="true" FixedLength="true" />
+          <NavigationProperty Name="Weekly" Relationship="SUNGOLFModel.FK_Weekly_Golfer" FromRole="Golfer" ToRole="Weekly" />
+          <NavigationProperty Name="Schedules" Relationship="SUNGOLFModel.FK_Schedule_Golfer" FromRole="Golfer" ToRole="Schedule" />
+        </EntityType>
+        <EntityType Name="Weekly">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" a:StoreGeneratedPattern="Identity" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="GolferID" Type="Int32" Nullable="false" />
+          <Property Name="CourseID" Type="Int32" Nullable="false" />
+          <Property Name="Score" Type="Int32" Nullable="false" />
+          <Property Name="Handicap" Type="Decimal" Nullable="false" Precision="5" Scale="1" />
+          <Property Name="Net" Type="Int32" />
+          <Property Name="Skins" Type="Int32" />
+          <Property Name="Pins" Type="Int32" />
+          <Property Name="PinsAmt" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="SkinsAmt" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="NetAmt" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="Course" Relationship="SUNGOLFModel.FK_Weekly_Course" FromRole="Weekly" ToRole="Course" />
+          <NavigationProperty Name="Golfer" Relationship="SUNGOLFModel.FK_Weekly_Golfer" FromRole="Weekly" ToRole="Golfer" />
+          <Property Type="Decimal" Name="Total" Precision="19" Scale="4" />
+        </EntityType>
+        <Association Name="FK_Weekly_Course">
+          <End Role="Course" Type="SUNGOLFModel.Course" Multiplicity="1" />
+          <End Role="Weekly" Type="SUNGOLFModel.Weekly" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Course">
+              <PropertyRef Name="CourseID" />
+            </Principal>
+            <Dependent Role="Weekly">
+              <PropertyRef Name="CourseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Weekly_Golfer">
+          <End Role="Golfer" Type="SUNGOLFModel.Golfer" Multiplicity="1" />
+          <End Role="Weekly" Type="SUNGOLFModel.Weekly" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Golfer">
+              <PropertyRef Name="GolferID" />
+            </Principal>
+            <Dependent Role="Weekly">
+              <PropertyRef Name="GolferID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Schedule">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="GolferID" />
+            <PropertyRef Name="CourseID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" a:StoreGeneratedPattern="Identity" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="DateTime" Name="Date" Nullable="false" Precision="0" />
+          <Property Type="Int32" Name="GolferID" Nullable="false" />
+          <Property Type="Int32" Name="CourseID" Nullable="false" />
+          <Property Type="Int32" Name="Golfing" />
+          <Property Type="Int32" Name="NotGolfing" />
+          <Property Type="Int32" Name="Maybe" />
+          <NavigationProperty Name="Course" Relationship="SUNGOLFModel.FK_Schedule_Course" FromRole="Schedule" ToRole="Course" />
+          <NavigationProperty Name="Golfer" Relationship="SUNGOLFModel.FK_Schedule_Golfer" FromRole="Schedule" ToRole="Golfer" />
+        </EntityType>
+        <Association Name="FK_Schedule_Course">
+          <End Type="SUNGOLFModel.Course" Role="Course" Multiplicity="1" />
+          <End Type="SUNGOLFModel.Schedule" Role="Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Course">
+              <PropertyRef Name="CourseID" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="CourseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Schedule_Golfer">
+          <End Type="SUNGOLFModel.Golfer" Role="Golfer" Multiplicity="1" />
+          <End Type="SUNGOLFModel.Schedule" Role="Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Golfer">
+              <PropertyRef Name="GolferID" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="GolferID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SUNGOLFModelStoreContainer" CdmEntityContainer="SUNGOLFDB">
+          <EntitySetMapping Name="Courses">
+            <EntityTypeMapping TypeName="SUNGOLFModel.Course">
+              <MappingFragment StoreEntitySet="Course">
+                <ScalarProperty Name="CourseID" ColumnName="CourseID" />
+                <ScalarProperty Name="CourseName" ColumnName="CourseName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Golfers">
+            <EntityTypeMapping TypeName="SUNGOLFModel.Golfer">
+              <MappingFragment StoreEntitySet="Golfer">
+                <ScalarProperty Name="GolferID" ColumnName="GolferID" />
+                <ScalarProperty Name="GolferName" ColumnName="GolferName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Weeklies">
+            <EntityTypeMapping TypeName="SUNGOLFModel.Weekly">
+              <MappingFragment StoreEntitySet="Weekly">
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="GolferID" ColumnName="GolferID" />
+                <ScalarProperty Name="CourseID" ColumnName="CourseID" />
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="Handicap" ColumnName="Handicap" />
+                <ScalarProperty Name="Net" ColumnName="Net" />
+                <ScalarProperty Name="Skins" ColumnName="Skins" />
+                <ScalarProperty Name="Pins" ColumnName="Pins" />
+                <ScalarProperty Name="PinsAmt" ColumnName="PinsAmt" />
+                <ScalarProperty Name="SkinsAmt" ColumnName="SkinsAmt" />
+                <ScalarProperty Name="NetAmt" ColumnName="NetAmt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Schedules">
+            <EntityTypeMapping TypeName="SUNGOLFModel.Schedule">
+              <MappingFragment StoreEntitySet="Schedule">
+                <ScalarProperty Name="Maybe" ColumnName="Maybe" />
+                <ScalarProperty Name="NotGolfing" ColumnName="NotGolfing" />
+                <ScalarProperty Name="Golfing" ColumnName="Golfing" />
+                <ScalarProperty Name="CourseID" ColumnName="CourseID" />
+                <ScalarProperty Name="GolferID" ColumnName="GolferID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="SunGolfModel">
+        <EntityTypeShape EntityType="SUNGOLFModel.Course" Width="1.5" PointX="0.5" PointY="1.875" Height="1.4279589843750002" IsExpanded="true" />
+        <EntityTypeShape EntityType="SUNGOLFModel.Golfer" Width="1.5" PointX="4.375" PointY="2" Height="1.4279589843749996" IsExpanded="true" />
+        <EntityTypeShape EntityType="SUNGOLFModel.Weekly" Width="1.5" PointX="2.5" PointY="0.5" Height="3.2357796223958339" IsExpanded="true" />
+        <AssociationConnector Association="SUNGOLFModel.FK_Weekly_Course" ManuallyRouted="false">
+          <ConnectorPoint PointX="2" PointY="2.5889794921875002" />
+          <ConnectorPoint PointX="2.5" PointY="2.5889794921875002" />
+        </AssociationConnector>
+        <AssociationConnector Association="SUNGOLFModel.FK_Weekly_Golfer" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.375" PointY="2.7139794921875" />
+          <ConnectorPoint PointX="4" PointY="2.7139794921875" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="SUNGOLFModel.Schedule" Width="1.5" PointX="2.5" PointY="4.625" />
+        <AssociationConnector Association="SUNGOLFModel.FK_Schedule_Course" />
+        <AssociationConnector Association="SUNGOLFModel.FK_Schedule_Golfer" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

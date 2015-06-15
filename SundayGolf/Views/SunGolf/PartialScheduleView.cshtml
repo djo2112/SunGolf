@@ -1,0 +1,37 @@
+﻿@model IEnumerable<SundayGolf.Models.ScheduleModel>
+
+@if (Model != null)
+{
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th>GolferID</th>
+                    <th>CourseID</th>
+                    <th>GolferName</th>
+                    <th>Golfing?</th>
+                    <th>Not Golfing?</th>
+                    <th>Maybe?</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.ID)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Date)</td>
+                        <td>@Html.DisplayFor(modelItem => item.GolferID)</td>
+                        <td>@Html.DisplayFor(modelItem => item.CourseID)</td>
+                        <td>@Html.DisplayFor(modelItem => item.GolferName)</td>
+                        <td>@Html.CheckBox("Golfing")</td>
+                        <td>@Html.CheckBox("NotGolfing")</td>
+                        <td>@Html.CheckBox("Maybe")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+}

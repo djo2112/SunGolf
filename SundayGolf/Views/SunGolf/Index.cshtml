@@ -1,0 +1,91 @@
+﻿@model IEnumerable<SundayGolf.Models.Weekly>
+
+@functions {
+    // Define a global var for current date
+    public DateTime currentDate { get; set; }
+    public string currentDivClass { get; set; }
+}
+
+@{
+    ViewBag.Title = "Index";
+    currentDivClass = "d0";
+}
+
+<h2>Details</h2>
+
+@using (Html.BeginForm("Index", "SunGolf", FormMethod.Post, new { id = "TheForm" }))
+{
+  @Html.Label("Current Year : ") 
+  @Html.DropDownList(
+    "SelectedYear",
+    null, 
+    new { onchange = "document.getElementById('TheForm').submit();" }
+    )
+
+  @Html.Label("Current Golfer : ")
+  @Html.DropDownList(
+    "SelectedGolfer",
+    ViewData["SelectedGolfer"] as SelectList, 
+    "All",
+    new { onchange = "document.getElementById('TheForm').submit();" }
+    )
+}
+
+
+@helper AlternateBackground(DateTime itemDate)
+{
+    if (currentDate != itemDate)
+    {
+        currentDate = itemDate;
+        if (currentDivClass == "d0")
+            { currentDivClass = "d1"; }
+        else
+            { currentDivClass = "d0"; }
+    }
+          <text>class="@currentDivClass"</text>
+}
+
+<p>
+    @Html.ActionLink("Summary", "Summary")
+</p>
+<table>
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.Date)</th>
+        <th>Golfer</th>
+        <th>Course</th>
+        <th>@Html.DisplayNameFor(model => model.Score)</th>
+        <th>HC</th>
+        <th>@Html.DisplayNameFor(model => model.Net)</th>
+        <th>@Html.DisplayNameFor(model => model.Skins)</th>
+        <th>@Html.DisplayNameFor(model => model.Pins)</th>
+        <th>$Pins</th>
+        <th>$Skins</th>
+        <th>$Net</th>
+        <th>Total</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr @AlternateBackground(item.Date)>
+        <td>@String.Format("{0:d}", item.Date)</td>
+        <td>@Html.DisplayFor(modelItem => item.Golfer.GolferName)</td>
+        <td>@Html.DisplayFor(modelItem => item.Course.CourseName)</td>
+        <td>@Html.DisplayFor(modelItem => item.Score)</td>
+        <td>@String.Format("{0}", item.Handicap)</td>
+        <td>@Html.DisplayFor(modelItem => item.Net)</td>
+        <td>@Html.DisplayFor(modelItem => item.Skins)</td>
+        <td>@Html.DisplayFor(modelItem => item.Pins)</td>
+        <td>@Html.DisplayFor(modelItem => item.PinsAmt)</td>
+        <td>@Html.DisplayFor(modelItem => item.SkinsAmt)</td>
+        <td>@Html.DisplayFor(modelItem => item.NetAmt)</td>
+        <td>@Html.DisplayFor(modelItem => item.Total)</td>
+        <td>
+            <!--
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            -->
+        </td>
+    </tr>
+}
+
+</table>

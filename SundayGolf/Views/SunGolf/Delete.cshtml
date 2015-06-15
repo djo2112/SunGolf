@@ -1,0 +1,95 @@
+﻿@model SundayGolf.Models.Weekly
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>Weekly</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Date)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Date)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Golfer.GolferName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Golfer.GolferName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Course.CourseName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Course.CourseName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Score)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Score)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Handicap)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Handicap)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Net)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Net)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Skins)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Skins)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Pins)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Pins)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.PinsAmt)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PinsAmt)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.SkinsAmt)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SkinsAmt)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.NetAmt)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.NetAmt)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

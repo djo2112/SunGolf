@@ -1,0 +1,46 @@
+﻿@model SundayGolf.Models.ScheduleModel
+@{
+    ViewBag.Title = "Schedule";
+}
+
+<h2>Sunday Schedule</h2>
+
+@using (Html.BeginForm("Schedule", "SunGolf", FormMethod.Post, new { id = "TheForm" }))
+{
+  @Html.AntiForgeryToken()
+  @Html.ValidationSummary(true)
+
+  @Html.Label("Course : ")
+  @Html.DropDownList(
+    "SelectedCourse",
+    ViewData["SelectedCourse"] as SelectList, 
+    "All",
+    new { onchange = "document.getElementById('TheForm').submit();" }
+    )
+
+  @Html.Label("Date : ")
+  @Html.DropDownList(
+    "SelectedDate",
+    ViewData["SelectedDate"] as SelectList, 
+    "All",
+    new { onchange = "document.getElementById('TheForm').submit();" }
+    )
+
+
+<p>
+    <input type="submit" value="Create" />
+</p>
+
+}
+
+<div>
+    @Html.Partial("PartialScheduleView", Model.scheduleModel)
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
